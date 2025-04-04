@@ -1,0 +1,6 @@
+sever:
+  port: 8080
+spring:
+  application:
+    name: msvc-gateway
+
