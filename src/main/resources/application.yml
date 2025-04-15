@@ -1,0 +1,59 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: msvc-gateway
+  config:
+    import: optional:configserver:http://localhost:8888
+  cloud:
+    discovery:
+      enabled: true
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      routes:
+        - id: cars-public
+          uri: http://localhost:9191
+          predicates:
+            - Path=/model/**,/trans/**,/fuel/**,/type/**,/car/**,/brand/**,/version/**
+            - Method=GET
+
+        - id: cars-secure
+          uri: http://localhost:9191
+          predicates:
+            - Path=/model/**,/trans/**,/fuel/**,/type/**,/car/**,/brand/**,/version/**
+            - Method=POST,PUT,DELETE
+          filters:
+            - RemoveRequestHeader=Cookie
+            - TokenRelay
+
+        - id: security
+          uri: http://localhost:8181
+          predicates:
+            - Path=/keycloak/user/**
+          filters:
+            - TokenRelay
+
+  security:
+    oauth2:
+      client:
+        registration:
+          keycloak:
+            client-id: cars-client
+            client-secret: HfMVc8W9Q6WTqKzPdbSFIXlSIArlhkqo
+            scope: openid
+        provider:
+          keycloak:
+            issuer-uri: http://localhost:9090/realms/cars-realm-dev
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:9090/realms/cars-realm-dev
+          jwk-set-uri: http://localhost:9090/realms/cars-realm-dev/protocol/openid-connect/certs
+jwt:
+  auth:
+    converter:
+      principalAttribute: preferred_username
+      resource-id: cars-client
