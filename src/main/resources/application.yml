@@ -39,19 +39,9 @@ spring:
 
   security:
     oauth2:
-      client:
-        registration:
-          keycloak:
-            client-id: cars-client
-            client-secret: HfMVc8W9Q6WTqKzPdbSFIXlSIArlhkqo
-            scope: openid
-        provider:
-          keycloak:
-            issuer-uri: http://localhost:9090/realms/cars-realm-dev
       resourceserver:
         jwt:
           issuer-uri: http://localhost:9090/realms/cars-realm-dev
-          jwk-set-uri: http://localhost:9090/realms/cars-realm-dev/protocol/openid-connect/certs
 jwt:
   auth:
     converter:
