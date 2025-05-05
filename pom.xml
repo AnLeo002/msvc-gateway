@@ -54,6 +54,7 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-oauth2-client</artifactId>
+			<version>3.2.5</version> <!-- Versión explícita compatible -->
 		</dependency>
 
 		<dependency>
