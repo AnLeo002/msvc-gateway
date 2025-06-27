@@ -24,6 +24,8 @@ public class SecurityConfig {
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .authorizeExchange(exchanges -> exchanges
                         .pathMatchers(HttpMethod.GET, "/**").permitAll()
+                        .pathMatchers(HttpMethod.POST,"/keycloak/user/**").permitAll()
+                        .pathMatchers(HttpMethod.GET,"/keycloak/user/**").authenticated()
                         .pathMatchers(
                                 "/actuator/health",
                                 "/actuator/info",
