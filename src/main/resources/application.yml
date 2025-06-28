@@ -20,6 +20,8 @@ spring:
           predicates:
             - Path=/model/**,/trans/**,/fuel/**,/type/**,/car/**,/brand/**,/version/**
             - Method=GET
+          filters:
+            - AddRequestHeader=X-GATEWAY-SECRET, key-microservices
 
         - id: cars-secure
           uri: http://msvc-cars:9191
@@ -29,12 +31,15 @@ spring:
           filters:
             - RemoveRequestHeader=Cookie
             - TokenRelay
+            - AddRequestHeader=X-GATEWAY-SECRET, key-microservices
 
         - id: security-login-register
           uri: http://msvc-security:8181
           predicates:
             - Path=/keycloak/user/**
             - Method=POST
+          filters:
+            - AddRequestHeader=X-GATEWAY-SECRET, key-microservices
 
         - id: security
           uri: http://msvc-security:8181
@@ -44,6 +49,7 @@ spring:
           filters:
             - RemoveRequestHeader=Cookie
             - TokenRelay
+            - AddRequestHeader=X-GATEWAY-SECRET, key-microservices
 
   security:
     oauth2:
